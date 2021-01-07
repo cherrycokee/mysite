@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,18 +8,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BLOG</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" href="../_assets/css/custom.min.css">
 </head>
 <body>
 
 <h1> BLOG </h1>
 
 {% for p in object_list %}
-<h3> {{ p.title }} </h3>
+    <h3> {{ p.title }} </h3>
 
-<h4> {{ p.created}} by {{ p.author }}</h4>
-<p> {{ p.content }}</p>
+    <h4> {{ p.created }} by {{ p.author }}</h4>
+    <p> {{ p.content }}</p>
 
 
 {% endfor %}
-</body>
+
+    <script src="../_vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../_assets/js/custom.js"></script>
+  </body>
 </html>
