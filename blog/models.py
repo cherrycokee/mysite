@@ -3,6 +3,13 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -18,3 +25,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return '/blog/{}/'.format(self.pk)
+
+    category = models.ForeignKey(Category,blank=True, null=True, on_delete=models.SET_NULL)
+
+
