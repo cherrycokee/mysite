@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Post, Category
 from django.views.generic import ListView, DetailView
-
+from django.db.models import Q
 
 # Create your views here.
 # [CBV : Class Based View] -----------------------------
@@ -33,6 +33,42 @@ class PostDetail(DetailView):
         context['post_without_category'] = Post.objects.filter(category=None).count()
 
         return context
+
+
+class PostListByCategory(PostList):
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        print('slug >>', slug)
+
+        category = Category.objects.get(slug=slug)
+
+        return Post.objects.filter(category=category).order_by('-created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostListByCategory, self).get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        context['post_without_category'] = Post.objects.filter(category=None).count()
+
+        slug = self.kwargs['slug']
+        category = Category.objects.get(slug=slug)
+
+        return context
+
+
+class PostSearch(PostList):
+    def get_queryset(self):
+        q = self.kwargs['question']
+        print('self.kwargs >>', self.kwargs)
+        print('self.kwargs[q] >>', self.kwargs['question'])
+        print('q >>', q)
+        object_list = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q))
+        return object_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        context['search_info'] = 'Search Result >> {}'.format(self.kwargs['question'])
+        return context
+
 
 # FBV : Function Based View ------------------------------
 # def post_detail(request,pk):

@@ -3,8 +3,10 @@ from . import views
 
 
 urlpatterns = [
-    #path('', views.index),
+    # path('', views.index),
     path('', views.PostList.as_view()),
     # path('blog/<int:pk>/', views.post_detail),
     path('<int:pk>/', views.PostDetail.as_view()),
+    path('category/<str:slug>/', views.PostListByCategory.as_view()),
+    path('search/<str:question>/',views.PostSearch.as_view()),
 ]

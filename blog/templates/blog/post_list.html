@@ -2,8 +2,10 @@
 
 {% block content %}
 
-
-    <h1 class="my-4">Blog</h1>
+    <h1 class="my-4">
+        Blog
+        {% if search_info %} <small class="text-muted"> {{ search_info }}({{ object_list.count }}) </small> {% endif %}
+    </h1>
 
     <!-- Blog Post -->
     {% if object_list.exists %}
@@ -15,6 +17,7 @@
                     <img class="card-img-top" src="https://picsum.photos/seed/picsum/750/300"
                          alt="Card image cap">
                 {% endif %}
+
                 <div class="card-body">
                     {% if p.category %}
                         <span class="badge bg-primary float-right">{{ p.category }}</span>
@@ -25,6 +28,7 @@
                     <p class="card-text">{{ p.content | truncatewords:50 }}</p>
                     <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
                 </div>
+
                 <div class="card-footer text-muted">
                     Posted on {{ p.created }} by
                     <a href="#">{{ p.author }}</a>
